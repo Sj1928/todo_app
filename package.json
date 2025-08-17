@@ -4,10 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-  "dev": "node --watch --experimental-strip-types --experimental-sqlite ./src/server.js",
-  "start": "node --experimental-strip-types --experimental-sqlite ./src/server.js"
-}
-,
+    "dev": "node --watch --experimental-strip-types --experimental-sqlite ./src/server.js",
+    "start": "node --experimental-strip-types --experimental-sqlite ./src/server.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -16,6 +15,7 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^17.2.1",
     "express": "^4.21.1",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.17.1"
   }
 }
