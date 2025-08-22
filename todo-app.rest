@@ -44,3 +44,49 @@ Content-Type: application/json
 ### Delete a todo DELETE /TODOS/:ID (protected)
 DELETE http://localhost:5003/todos/68a16f249c02ae64560bf192
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTE2ZjI0OWMwMmFlNjQ1NjBiZjE5MCIsImlhdCI6MTc1NTQxMDIyMywiZXhwIjoxNzU1NDk2NjIzfQ.lVia-2tCTRtpKkVBXQH5obBinPgbI74AuV8EJEHaVQ0
+### GET /
+GET http://localhost:5003
+
+### Register a user POST /AUTH/REGISTER
+POST http://localhost:5003/auth/register
+Content-Type: application/json
+
+{
+    "username": "bhoisiba282@gmail.com",
+    "password": "123456"
+}
+
+### Login a user POST /AUTH/LOGIN
+POST http://localhost:5003/auth/login
+Content-Type: application/json
+
+{
+    "username": "bhoisiba282@gmail.com",
+    "password": "123456"
+}
+
+### Fetch all todos GET /TODOS (protected)
+GET http://localhost:5003/todos
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTFjZDkzNzE2MWE2NTJkMTI5Mjk4ZSIsImlhdCI6MTc1NTgzOTE1NCwiZXhwIjoxNzU1OTI1NTU0fQ.5JOHmtn7-O4ZRsjjy-wW8bU2cZqJWIRshDrbReAOpUs
+
+### Creates a new todo POST /TODOS (protected)
+POST http://localhost:5003/todos
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTFjZDkzNzE2MWE2NTJkMTI5Mjk4ZSIsImlhdCI6MTc1NTgzOTE1NCwiZXhwIjoxNzU1OTI1NTU0fQ.5JOHmtn7-O4ZRsjjy-wW8bU2cZqJWIRshDrbReAOpUs
+Content-Type: application/json 
+
+{
+    "task": "Finish coding the projects"
+}
+
+### Update a todo PUT /TODOS/:ID (protected)
+PUT http://localhost:5003/todos/68a7fb7c712962a8f88ba14c
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTFjZDkzNzE2MWE2NTJkMTI5Mjk4ZSIsImlhdCI6MTc1NTgzOTE1NCwiZXhwIjoxNzU1OTI1NTU0fQ.5JOHmtn7-O4ZRsjjy-wW8bU2cZqJWIRshDrbReAOpUs
+Content-Type: application/json
+
+{
+    "completed": 1
+}
+
+### Delete a todo DELETE /TODOS/:ID (protected)
+DELETE http://localhost:5003/todos/68a7fb7c712962a8f88ba14c
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YTFjZDkzNzE2MWE2NTJkMTI5Mjk4ZSIsImlhdCI6MTc1NTgzOTE1NCwiZXhwIjoxNzU1OTI1NTU0fQ.5JOHmtn7-O4ZRsjjy-wW8bU2cZqJWIRshDrbReAOpUs
