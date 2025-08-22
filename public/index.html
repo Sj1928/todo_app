@@ -10,9 +10,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Navbar */
+        #navbar {
+            display: none;
+            background: #1a1a1a;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #navbar .nickname {
+            font-weight: bold;
+        }
+
+        #navbar .logout {
+            cursor: pointer;
+            font-size: 18px;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Navbar -->
+    <div id="navbar">
+        <span class="nickname" id="nickname">User</span>
+        <span class="logout" onclick="logout()" title="Logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </span>
+    </div>
+
+    <!-- Auth -->
     <section id="auth">
         <div>
             <h2 className="sign-up-text">Login</h2>
@@ -31,6 +61,7 @@
             <button onclick="toggleIsRegister()" id="registerBtn">Sign up</button>
         </div>
     </section>
+
     <header style="display: none;">
         <h1 class="text-gradient">You have 0 open tasks.</h1>
     </header>
@@ -46,14 +77,12 @@
         </button>
         <hr />
     </nav>
-    <main style="display: none;">
-
-
-    </main>
+    <main style="display: none;"></main>
 </body>
+
 <script>
     let token = localStorage.getItem('token')
-
+    let nickname = ''
     let isLoading = false
     let isAuthenticating = false
     let isRegistration = false
@@ -73,9 +102,8 @@
     const password = document.getElementById('passwordInput')
     const registerBtn = document.getElementById('registerBtn')
     const authBtn = document.getElementById('authBtn')
-    const addTodoBtn = document.getElementById('addTodoBtn')
-    // const deleteBtn = document.getElementById('')
-    // const updateBtn = 
+    const nicknameEl = document.getElementById('nickname')
+    const navbar = document.getElementById('navbar')
 
     // PAGE RENDERING LOGIC
     async function showDashboard() {
@@ -83,6 +111,8 @@
         header.style.display = 'flex'
         main.style.display = 'flex'
         authContent.style.display = 'none'
+        navbar.style.display = 'flex'
+        nicknameEl.innerText = nickname
 
         await fetchTodos()
     }
@@ -98,18 +128,10 @@
     function updateNavCount() {
         navElements.forEach(ele => {
             const btnText = ele.innerText.split(' ')[0]
-
-            // filter todos in here
             const count = todos.filter(val => {
-                if (btnText === 'All') {
-                    return true
-                }
-                return btnText === 'Complete' ?
-                    val.completed :
-                    !val.completed
+                if (btnText === 'All') return true
+                return btnText === 'Complete' ? val.completed : !val.completed
             }).length
-
-            // target inside space and update value
             ele.querySelector('span').innerText = `(${count})`
         })
     }
@@ -127,16 +149,14 @@
     }
 
     function renderTodos() {
-        // need to add filtering logic in here
-
         updateNavCount()
         updateHeaderText()
 
         let todoList = ``
         todos.filter(val => {
             return selectedTab === 'All' ? true : selectedTab === 'Complete' ? val.completed : !val.completed
-        }).forEach((todo, todoIndex) => {
-            const taskIndex = todo.id
+        }).forEach((todo) => {
+            const taskIndex = todo.todoId // ✅ fixed here
             todoList += `
             <div class="card todo-item">
                 <p>${todo.task}</p>
@@ -162,10 +182,7 @@
         main.innerHTML = todoList
     }
 
-    // showDashboard()
-
     // AUTH LOGIC
-
     async function toggleIsRegister() {
         isRegistration = !isRegistration
         registerBtn.innerText = isRegistration ? 'Sign in' : 'Sign up'
@@ -175,11 +192,9 @@
     }
 
     async function authenticate() {
-        // access email and pass values
         const emailVal = email.value
         const passVal = password.value
 
-        // guard clauses... if authenticating, return
         if (
             isLoading ||
             isAuthenticating ||
@@ -189,7 +204,6 @@
             !emailVal.includes('@')
         ) { return }
 
-        // reset error and set isAuthenticating to true
         error.style.display = 'none'
         isAuthenticating = true
         authBtn.innerText = 'Authenticating...'
@@ -197,7 +211,6 @@
         try {
             let data
             if (isRegistration) {
-                // register an account
                 const response = await fetch(apiBase + 'auth/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -205,7 +218,6 @@
                 })
                 data = await response.json()
             } else {
-                // login an account
                 const response = await fetch(apiBase + 'auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -216,15 +228,11 @@
 
             if (data.token) {
                 token = data.token
+                nickname = emailVal.split('@')[0]
                 localStorage.setItem('token', token)
 
-                // authenicating into loading
                 authBtn.innerText = 'Loading...'
-
-                // fetch todos
                 await fetchTodos()
-
-                // show dashboard
                 showDashboard()
             } else {
                 throw Error('❌ Failed to authenticate...')
@@ -238,16 +246,26 @@
             authBtn.innerText = 'Submit'
             isAuthenticating = false
         }
-
-
     }
 
+    // 👇 Logout function
     function logout() {
-        // wipe states and clear cached token
+        token = null
+        nickname = ''
+        localStorage.removeItem('token')
+        todos = []
+
+        navbar.style.display = 'none'
+        nav.style.display = 'none'
+        header.style.display = 'none'
+        main.style.display = 'none'
+        authContent.style.display = 'block'
+
+        email.value = ''
+        password.value = ''
     }
 
     // CRUD LOGIC
-
     async function fetchTodos() {
         isLoading = true
         const response = await fetch(apiBase + 'todos', {
@@ -259,36 +277,33 @@
         renderTodos()
     }
 
-    async function updateTodo(index) {
-        // set task complete status to true
-        await fetch(apiBase + 'todos' + '/' + index, {
+    async function updateTodo(todoId) { // ✅ fixed param
+        const todo = todos.find(val => val.todoId === todoId)
+        if (!todo) return
+
+        await fetch(apiBase + 'todos/' + todoId, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': token
             },
-            body: JSON.stringify({ task: todos.find(val => val.id === index).task, completed: 1 })
+            body: JSON.stringify({ task: todo.task, completed: 1 })
         })
         fetchTodos()
     }
 
-    async function deleteTodo(index) {
-        // set task complete status to true
-        await fetch(apiBase + 'todos' + '/' + index, {
+    async function deleteTodo(todoId) { // ✅ fixed param
+        await fetch(apiBase + 'todos/' + todoId, {
             method: 'DELETE',
-            headers: {
-                'Authorization': token
-            },
+            headers: { 'Authorization': token },
         })
         fetchTodos()
     }
 
     async function addTodo() {
-        // have to access this val later as it's rendered with js
         const todoInput = document.getElementById('todoInput')
         const task = todoInput.value
-
-        if (!task) { return }
+        if (!task) return
 
         await fetch(apiBase + 'todos', {
             method: 'POST',
@@ -302,16 +317,10 @@
         fetchTodos()
     }
 
-    // UTILITY FUNCTIONS
-
-
-    // load page and read local storage for key
-
-    // default to login screen
-
-    // if is authenticated, show todo app
+    // AUTO LOGIN
     if (token) {
         async function run() {
+            nickname = email.value ? email.value.split('@')[0] : 'User'
             await fetchTodos()
             showDashboard()
         }
