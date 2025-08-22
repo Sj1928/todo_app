@@ -66,17 +66,18 @@
         <h1 class="text-gradient">You have 0 open tasks.</h1>
     </header>
     <nav style="display: none;" class="tab-container">
-        <button onclick="changeTab('All')" class="tab-button  selected-tab">
-            <h4>All <span>(0)</span></h4>
-        </button>
-        <button onclick="changeTab('Open')" class="tab-button  ">
-            <h4>Open <span>(0)</span></h4>
-        </button>
-        <button onclick="changeTab('Complete')" class="tab-button  ">
-            <h4>Complete <span>(0)</span></h4>
-        </button>
-        <hr />
-    </nav>
+    <button onclick="changeTab('All')" class="tab-button selected-tab">
+        <h4>All <span></span></h4>
+    </button>
+    <button onclick="changeTab('Open')" class="tab-button">
+        <h4>Open <span></span></h4>
+    </button>
+    <button onclick="changeTab('Complete')" class="tab-button">
+        <h4>Completed <span></span></h4>
+    </button>
+    <hr />
+</nav>
+
     <main style="display: none;"></main>
 </body>
 
@@ -126,15 +127,24 @@
     }
 
     function updateNavCount() {
-        navElements.forEach(ele => {
-            const btnText = ele.innerText.split(' ')[0]
-            const count = todos.filter(val => {
-                if (btnText === 'All') return true
-                return btnText === 'Complete' ? val.completed : !val.completed
-            }).length
-            ele.querySelector('span').innerText = `(${count})`
-        })
-    }
+    navElements.forEach(ele => {
+        // get tab name from h4 text
+        const btnText = ele.querySelector('h4').childNodes[0].textContent.trim()
+
+        let count = 0
+        if (btnText === 'All') {
+            count = todos.length
+        } else if (btnText === 'Open') {
+            count = todos.filter(val => !Boolean(val.completed)).length
+        } else if (btnText === 'Completed') { // Changed from 'Complete' to 'Completed'
+            count = todos.filter(val => Boolean(val.completed)).length
+        }
+
+        ele.querySelector('span').innerText = `(${count})`
+    })
+}
+
+
 
     function changeTab(tab) {
         selectedTab = tab
