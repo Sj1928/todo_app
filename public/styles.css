@@ -1,0 +1,279 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+body {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0526 0%, #1a0933 100%);
+    color: #e0d6ff;
+    font-family: 'Courier New', monospace;
+    border: 4px double #6a3bb5;
+    box-shadow: 0 0 20px rgba(106, 59, 181, 0.5),
+                inset 0 0 20px rgba(106, 59, 181, 0.3);
+}
+
+main,
+body,
+#auth {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#auth {
+    flex: 1;
+    justify-content: center;
+    max-width: 600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.sign-up-text {
+    padding-top: 0;
+    color: #b38cff;
+}
+
+.register-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+h1 {
+    width: fit-content;
+    color: #000000;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    text-shadow: -1.5px -1.5px 0 #bd93f9,
+                 2px 1.7px 0 rgba(0, 51, 255, 0.5);
+    transform: perspective(500px) rotateX(10deg);
+}
+
+.tab-container {
+    overflow-x: auto;
+    background: rgba(40, 20, 80, 0.6);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.tab-button {
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    background: linear-gradient(to bottom, #483d8b, #2a1b5d);
+    color: #f8f8f2;
+    border-radius: 4px;
+    border-bottom: 3px solid #bd93f9;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    transform: perspective(100px) rotateX(5deg);
+}
+
+.tab-button span {
+    opacity: 0.8;
+    font-weight: 400;
+}
+
+.tab-button:hover {
+    transform: perspective(100px) rotateX(5deg) translateY(-2px);
+    box-shadow: 0 5px 15px rgba(189, 147, 249, 0.4);
+    background: linear-gradient(to bottom, #5a4a9b, #3a2b7d);
+}
+
+.selected-tab {
+    position: relative;
+    background: linear-gradient(to bottom, #6a5acd, #4a3aad);
+    color: #ffffff;
+}
+
+.selected-tab::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%) perspective(100px) rotateX(20deg);
+    background: linear-gradient(to right, #ff79c6, #bd93f9);
+    border-radius: 50%;
+    animation: widen 250ms ease-in-out forwards;
+    box-shadow: 0 0 10px #ff79c6;
+}
+
+hr {
+    opacity: 0.4;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #bd93f9, transparent);
+    border: none;
+}
+
+.todo-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: none;
+    background: rgba(40, 42, 54, 0.5);
+    padding: 1rem;
+    border-radius: 5px;
+    border-left: 3px solid #ff79c6;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.todo-item:hover {
+    transform: perspective(500px) translateZ(10px);
+}
+
+.todo-complete {
+    position: relative;
+}
+
+.todo-complete::after {
+    position: absolute;
+    content: '';
+    z-index: 4;
+    inset: -1.5px;
+    border-radius: inherit;
+    background: var(--background-primary);
+    opacity: 0.6;
+}
+
+.todo-buttons {
+    display: flex;
+    gap: 1rem;
+    position: relative;
+    z-index: 5;
+}
+
+.todo-buttons button {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.todo-buttons button:hover {
+    transform: translateY(-2px) perspective(100px) rotateX(5deg);
+    opacity: 1 !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.todo-buttons button:first-of-type {
+    background: linear-gradient(to bottom, #50fa7b, #30da5b);
+    color: #282a36;
+    text-shadow: none;
+}
+
+.todo-buttons button:last-of-type {
+    background: linear-gradient(to bottom, #bd93f9, #9d73d9);
+    color: #282a36;
+    text-shadow: none;
+}
+
+.todo-item p {
+    font-weight: 500;
+    color: #020202;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.input-container input {
+    width: 100%;
+    flex: 1;
+    max-width: unset !important;
+    background: rgba(40, 42, 54, 0.8);
+    border: 1px solid #bd93f9;
+    color: #f8f8f2;
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.input-container input:focus {
+    outline: none;
+    border-color: #ff79c6;
+    box-shadow: 0 0 10px rgba(255, 121, 198, 0.5),
+                inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes widen {
+    from {
+        width: 20%;
+        height: 1px;
+        opacity: 0.6;
+    }
+    to {
+        width: 100%;
+        height: 3px;
+        opacity: 1;
+        box-shadow: 0 0 15px #ff79c6;
+    }
+}
+
+@media (min-width:640px) {
+    .tab-button {
+        padding: 0.5rem 1.5rem;
+    }
+
+    .todo-item {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+}
+
+/* Magical glowing elements */
+::selection {
+    background: #ff79c6;
+    color: #f8f8f2;
+}
+
+/* Add some magical particle effects (would need JS to fully implement) */
+.magic-dust {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #ff79c6;
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 10px 2px #ff79c6;
+    opacity: 0;
+}
+
+/* Retro scanlines effect */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.25) 50%
+    );
+    background-size: 100% 4px;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.3;
+}
