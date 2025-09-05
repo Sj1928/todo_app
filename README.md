@@ -1,9 +1,3 @@
-# BACKEND FULL COURSE - Node.JS Express.JS & Node:SQLite
-
-This guide provides an overview of the codebase, the functionality of the app, and detailed instructions on how to set up and run the app. Make sure to follow all steps carefully, especially regarding Node.js version requirements.
-
-## Overview
-
 This is an authentication-protected Todo App using **Node.js**, **Express.js**, **bcrypt**, **JWT authentication**, and **SQLite**. The app allows users to:
 - **Register**: Create a new account.
 - **Login**: Authenticate and receive a JWT token.
